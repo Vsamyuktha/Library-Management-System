@@ -1,15 +1,27 @@
 package com.ooad.lms.controller;
 
+import com.ooad.lms.entity.User;
+import com.ooad.lms.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class LibraryManagementController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/hello")
     public String hello() {
         return "Hello World";
+    }
+
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        return userService.getAllUsers();
     }
 
     // USER

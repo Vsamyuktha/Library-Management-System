@@ -19,7 +19,7 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserDetails userDetails;
 
     public UserDetails getUserDetails() {
@@ -28,7 +28,7 @@ public class User {
 
     public void setUserDetails(UserDetails userDetails) {
         this.userDetails = userDetails;
-    }
+    }*/
 
     // Constructors, Getters, and Setters
 
