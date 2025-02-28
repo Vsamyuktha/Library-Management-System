@@ -4,6 +4,7 @@ import com.ooad.lms.entity.Book;
 import com.ooad.lms.dao.BookRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -40,12 +41,4 @@ public class BookService {
         return searchContext.executeSearch(books, value);
     }
 
-    // Sorting functionality
-    public List<Book> getSortedBooks(String sortBy, String order) {
-        Sort sort = Sort.by(Sort.Direction.ASC, sortBy);
-        if ("desc".equalsIgnoreCase(order)) {
-            sort = Sort.by(Sort.Direction.DESC, sortBy);
-        }
-        return bookRepository.findAll(sort);
-    }
 }

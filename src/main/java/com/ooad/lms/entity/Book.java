@@ -8,7 +8,8 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment primary key
-    private Long id;
+    @Column(name = "book_id")
+    private Long bookId;
 
     @Column(nullable = false)
     private String title;
@@ -21,24 +22,28 @@ public class Book {
     @Column(name = "publication_year")
     private int publicationYear;
 
+    @Column(nullable = false)
+    private int count;
+
     // Constructors
     public Book() {
     }
 
-    public Book(String title, String author, String genre, int publicationYear) {
+    public Book(String title, String author, String genre, int publicationYear, int count) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.publicationYear = publicationYear;
+        this.count = count;
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
+    public Long getBookId() {
+        return bookId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
     }
 
     public String getTitle() {
@@ -71,5 +76,13 @@ public class Book {
 
     public void setPublicationYear(int publicationYear) {
         this.publicationYear = publicationYear;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

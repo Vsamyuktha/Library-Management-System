@@ -22,9 +22,4 @@ public class BookController {
         return bookService.searchBooks(field, value);
     }
 
-    // Sort books dynamically
-    @GetMapping("/sort")
-    public List<Book> sortBooks(@RequestParam String sortBy, @RequestParam(defaultValue = "asc") String order) {
-        return bookService.getSortedBooks(sortBy, order);
-    }
 }
