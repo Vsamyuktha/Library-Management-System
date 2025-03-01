@@ -2,10 +2,11 @@ package com.ooad.lms.service;
 
 import com.ooad.lms.entity.Book;
 import com.ooad.lms.dao.BookRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -41,4 +42,10 @@ public class BookService {
         return searchContext.executeSearch(books, value);
     }
 
+    // New function: Get 5 random books
+    public List<Book> getRandomBooks(int count) {
+        List<Book> books = bookRepository.findAll(); // Fetch all books from DB
+        Collections.shuffle(books); // Shuffle the list randomly
+        return books.stream().limit(count).collect(Collectors.toList()); // Return only 'count' books
+    }
 }
