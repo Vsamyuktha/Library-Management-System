@@ -4224,8 +4224,9 @@ textarea.form-control-lg {
     margin-bottom: 0;
 }
 
-.card-text:last-child {
-    margin-bottom: 0;
+.card-text {
+    margin-bottom: 5px; /* Reduces space between text elements */
+    line-height: 1.2; /* Reduces line height for compact spacing */
 }
 
 .card-link + .card-link {
@@ -10838,3 +10839,4 @@ textarea.form-control-lg {
         display: none !important;
     }
 }
+
