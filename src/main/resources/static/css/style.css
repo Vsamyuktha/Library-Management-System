@@ -30,6 +30,10 @@ html,body{
     color: 	#6c503d;
 }
 
+.p-color {
+    color: white; !important;
+}
+
 .social_icon span:hover{
     color: white;
     cursor: pointer;
