@@ -16,8 +16,8 @@ public class Reservation {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "date_time_reserved", nullable = false)
     private LocalDateTime dateTimeReserved;
@@ -38,9 +38,9 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Book book, Long userId, LocalDateTime dateTimeReserved, LocalDateTime dateTimeAvailable, ReservationStatus status) {
+    public Reservation(Book book, String username, LocalDateTime dateTimeReserved, LocalDateTime dateTimeAvailable, ReservationStatus status) {
         this.book = book;
-        this.userId = userId;
+        this.username = username;
         this.dateTimeReserved = dateTimeReserved;
         this.dateTimeAvailable = dateTimeAvailable;
         this.status = status;
@@ -63,12 +63,12 @@ public class Reservation {
         this.book = book;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserId() {
+        return username;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId(String username) {
+        this.username = username;
     }
 
     public LocalDateTime getDateTimeReserved() {
