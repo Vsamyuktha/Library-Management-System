@@ -33,7 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/signup", "/login", "/unauthorized").permitAll() // Allow public access to these endpoints
+                        .requestMatchers("/signup", "/login", "/unauthorized", "/css/**", "/js/**", "/images/**").permitAll() // Allow public access to these endpoints
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )
                 .formLogin(form -> form
