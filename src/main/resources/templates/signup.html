@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <style>
         .card{
-            height: 460px;
+            height: 470px;
             margin-top: auto;
             margin-bottom: auto;
             width: 400px;
@@ -64,10 +64,11 @@
                         </div>
                         <input type="password" id="password" name="password" th:field="*{password}" class="form-control" placeholder="password">
                     </div>
-                    <br/>
+                        <p th:text="${message}" style="color: white; !important"></p>
                     <div class="form-group">
                         <button type="submit" class="btn float-right login_btn">Sign Up</button>
                     </div>
+
                 </form>
             </div>
             <div class="card-footer">

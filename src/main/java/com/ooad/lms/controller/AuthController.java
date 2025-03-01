@@ -30,10 +30,16 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String handleSignup(@ModelAttribute("user") User user) {
+    public String handleSignup(@ModelAttribute("user") User user, Model model) {
         user.setRole("USER");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.saveUser(user);
-        return "redirect:/login";
+        try {
+            userService.saveUser(user);
+        } catch (Exception e) {
+            model.addAttribute("message", "User already exists!");
+        }
+
+        model.addAttribute("message", "Sign up successful!");
+        return "signup";
     }
 }
