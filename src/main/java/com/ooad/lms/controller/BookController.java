@@ -22,7 +22,7 @@ public class BookController {
     }
 
     @GetMapping("/random")
-    public List<Book> getRandomBooks(@RequestParam(defaultValue = "5") int count) {
+    public List<Book> getRandomBooks(@RequestParam(defaultValue = "4") int count) {
         return bookService.getRandomBooks(count);
     }
 }
