@@ -51,13 +51,24 @@
                 <div class="card-header">Search</div>
                 <div class="card-body">
                     <div class="input-group">
+                        <!-- Search Field Dropdown -->
                         <select class="form-control" id="searchField">
                             <option value="title">Title</option>
                             <option value="author">Author</option>
                             <option value="genre">Genre</option>
                             <option value="year">Publication Year</option>
                         </select>
+
+                        <!-- Search Input -->
                         <input class="form-control" type="text" id="searchValue" placeholder="Enter search term..."/>
+
+                        <!-- Sort Order Dropdown -->
+                        <select class="form-control" id="sortOrder">
+                            <option value="asc">Sort by Ascending</option>
+                            <option value="desc">Sort by Descending</option>
+                        </select>
+
+                        <!-- Search Button -->
                         <button class="btn btn-primary" id="button-search" type="button" onclick="searchBooks()">Go!
                         </button>
                     </div>
@@ -110,6 +121,7 @@
     function searchBooks() {
         let field = document.getElementById("searchField").value;
         let value = document.getElementById("searchValue").value.trim();
+        let sortOrder = document.getElementById("sortOrder").value; // Get sort order (asc/desc)
 
         if (!value) {
             alert("Please enter a search term!");
@@ -131,6 +143,18 @@
                     resultDiv.innerHTML = "<p>No books found.</p>";
                     return;
                 }
+
+                // Sort books based on search field and sort order
+                books.sort((a, b) => {
+                    let fieldA = a[field].toString().toLowerCase();
+                    let fieldB = b[field].toString().toLowerCase();
+
+                    if (sortOrder === "asc") {
+                        return fieldA.localeCompare(fieldB, undefined, {numeric: true});
+                    } else {
+                        return fieldB.localeCompare(fieldA, undefined, {numeric: true});
+                    }
+                });
 
                 let resultHTML = "";
                 books.forEach(book => {
@@ -161,6 +185,7 @@
             });
     }
 </script>
+
 
 </body>
 </html>
