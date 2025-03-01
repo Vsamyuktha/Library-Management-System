@@ -4,7 +4,6 @@ import com.ooad.lms.entity.Borrow;
 import com.ooad.lms.entity.Notification;
 import com.ooad.lms.service.BorrowService;
 import com.ooad.lms.service.NotificationService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +27,20 @@ public class UserController {
     public String getHome(@RequestParam String username, Model model) {
         List<Notification> notifications = notificationService.findNotficationsByUsername(username);
         List<Borrow> borrowedBooks = borrowService.findBorrowedBooksByUsername(username);
+        model.addAttribute("username", username);
         model.addAttribute("notifications", notifications);
         model.addAttribute("borrowedBooks", borrowedBooks);
         return "home";
+    }
+
+    @GetMapping("/profile")
+    public String getProfile(@RequestParam String username, Model model) {
+        List<Notification> notifications = notificationService.findNotficationsByUsername(username);
+        List<Borrow> borrowedBooks = borrowService.findBorrowedBooksByUsername(username);
+        model.addAttribute("username", username);
+        model.addAttribute("notifications", notifications);
+        model.addAttribute("borrowedBooks", borrowedBooks);
+        return "profile";
     }
 
     // USER
