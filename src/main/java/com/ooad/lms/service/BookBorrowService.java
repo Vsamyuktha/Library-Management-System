@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,12 +32,21 @@ public class BookBorrowService implements BorrowService {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    BookBorrowService(BorrowRepository borrowRepository) {
+        this.borrowRepository = borrowRepository;
+    }
+
+    public List<Borrow> findBorrowedBooksByUsername(String username) {
+        return borrowRepository.findByUsername(username);
+    }
+
+
     @Override
-    public Borrow borrowBook(Long userId, Long bookId) {
+    public Borrow borrowBook(String username, Long bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
 
-        Reservation reservation = reservationRepository.findByUserIdAndBookAndStatus(userId, book, Reservation.ReservationStatus.COMPLETED).orElse(null);
+        Reservation reservation = reservationRepository.findByUsernameAfterAndBookAndStatus(username, book, Reservation.ReservationStatus.COMPLETED).orElse(null);
 
         if (reservation != null) {
             reservation.setStatus(Reservation.ReservationStatus.BORROWED);
@@ -49,7 +59,7 @@ public class BookBorrowService implements BorrowService {
         }
 
         Borrow borrow = new Borrow();
-        borrow.setUserId(userId);
+        borrow.setUsername(username);
         borrow.setBook(book);
         borrow.setDateTimeBorrowed(LocalDateTime.now());
         borrow.setDateTimeDue(LocalDateTime.now().plusWeeks(2));
@@ -71,7 +81,7 @@ public class BookBorrowService implements BorrowService {
             reservation.setDateTimeAvailable(LocalDateTime.now());
             reservationRepository.save(reservation);
 
-            createNotification(reservation.getUserId(), "The book '" + book.getTitle() + "' you reserved is now available.");
+            createNotification(reservation.getUsername(), "The book '" + book.getTitle() + "' you reserved is now available.");
         } else {
             book.setCount(book.getCount() + 1);
             bookRepository.save(book);
@@ -85,9 +95,9 @@ public class BookBorrowService implements BorrowService {
         return borrow;
     }
 
-    private void createNotification(Long userId, String message) {
+    private void createNotification(String username, String message) {
         Notification notification = new Notification();
-        notification.setUserId(userId);
+        notification.setUsername(username);
         notification.setDateTime(LocalDateTime.now());
         notification.setMessage(message);
         notification.setStatus(Notification.NotificationStatus.UNREAD);

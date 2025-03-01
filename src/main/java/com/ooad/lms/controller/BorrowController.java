@@ -1,7 +1,7 @@
 package com.ooad.lms.controller;
 
 import com.ooad.lms.entity.Borrow;
-import com.ooad.lms.service.BorrowService;
+import com.ooad.lms.service.BookBorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class BorrowController {
 
     @Autowired
-    private BorrowService borrowService;
+    private BookBorrowService borrowService;
 
     @PostMapping
-    public ResponseEntity<Borrow> borrowBook(@RequestParam Long userId, @RequestParam Long bookId) {
-        Borrow borrow = borrowService.borrowBook(userId, bookId);
+    public ResponseEntity<Borrow> borrowBook(@RequestParam String username, @RequestParam Long bookId) {
+        Borrow borrow = borrowService.borrowBook(username, bookId);
         return ResponseEntity.ok(borrow);
     }
 

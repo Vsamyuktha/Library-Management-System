@@ -34,7 +34,7 @@ public class BookReservationService implements ReservationService {
     private NotificationRepository notificationRepository;
 
     @Override
-    public Reservation reserveBook(Long userId, Long bookId) {
+    public Reservation reserveBook(String username, Long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
         // Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
         if (book.getCount() > 0) {
@@ -42,24 +42,24 @@ public class BookReservationService implements ReservationService {
             bookRepository.save(book);
 
             Reservation reservation = new Reservation();
-            reservation.setUserId(userId);
+            reservation.setUsername(username);
             reservation.setBook(book);
             reservation.setDateTimeReserved(LocalDateTime.now());
             reservation.setStatus(Reservation.ReservationStatus.COMPLETED);
             reservation = reservationRepository.save(reservation);
 
-            createNotification(userId, "Book '" + book.getTitle() + "' is ready to be picked up.");
+            createNotification(username, "Book '" + book.getTitle() + "' is ready to be picked up.");
 
             return reservation;
         } else {
             Reservation reservation = new Reservation();
-            reservation.setUserId(userId);
+            reservation.setUsername(username);
             reservation.setBook(book);
             reservation.setDateTimeReserved(LocalDateTime.now());
             reservation.setStatus(Reservation.ReservationStatus.PENDING);
             reservation = reservationRepository.save(reservation);
 
-            createNotification(userId, "Book '" + book.getTitle() + "' is currently unavailable. You will be notified when it becomes available.");
+            createNotification(username, "Book '" + book.getTitle() + "' is currently unavailable. You will be notified when it becomes available.");
 
             return reservation;
         }
@@ -71,16 +71,16 @@ public class BookReservationService implements ReservationService {
     }
 
     @Override
-    public void borrowBook(Long userId, Long bookId) {
+    public void borrowBook(String username, Long bookId) {
 
     }
 
 
 
 
-    private void createNotification(Long userId, String message) {
+    private void createNotification(String username, String message) {
         Notification notification = new Notification();
-        notification.setUserId(userId);
+        notification.setUsername(username);
         notification.setDateTime(LocalDateTime.now());
         notification.setMessage(message);
         notification.setStatus(Notification.NotificationStatus.UNREAD);
@@ -88,7 +88,7 @@ public class BookReservationService implements ReservationService {
     }
 
     @Override
-    public List<Reservation> getUserReservations(Long userId) {
-        return reservationRepository.findByUserId(userId);
+    public List<Reservation> getUserReservations(String username) {
+        return reservationRepository.findByUsername(username);
     }
 }

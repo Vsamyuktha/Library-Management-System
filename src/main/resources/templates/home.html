@@ -171,7 +171,7 @@
                                     <p class="card-text"><strong>Author:</strong> ${book.author}</p>
                                     <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
                                     <p class="card-text"><strong>Available Copies:</strong> ${book.count}</p>
-                                    <a class="btn ${reserveButtonClass}" href="#!">${reserveButtonText}</a>
+                                    <button class="btn ${reserveButtonClass}" onclick="reserveBook('${book.bookId}')">${reserveButtonText}</button>
                                 </div>
                             </div>
                         </div>`;
@@ -182,6 +182,29 @@
             .catch(error => {
                 console.error("Error fetching books:", error);
                 document.getElementById("searchResults").innerHTML = "<p>Error fetching books. Please try again.</p>";
+            });
+    }
+
+    function reserveBook(bookId) {
+        const username = 'vibhan'; // Replace with the actual username
+        const bookIdLong = Number(bookId);
+        fetch(`/library/reservations/reserveBook/${username}/${bookIdLong}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Book reserved successfully!');
+                    // You can also update the UI to reflect the reservation
+                } else {
+                    alert('Failed to reserve book. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error reserving book:', error);
+                alert('Error reserving book. Please try again.');
             });
     }
 </script>
