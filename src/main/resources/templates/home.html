@@ -25,7 +25,7 @@
                 <li class="nav-item"><a class="nav-link active" th:href="@{/library/user(username=${username})}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/library/user/profile(username=${username})}">Profile</a></li>
                 <!--<li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>-->
-                <li class="nav-item"><a class="nav-link" href="#!">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -107,7 +107,7 @@
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2025</p>
     </div>
 </footer>
 
@@ -123,7 +123,7 @@
     });
 
     function loadRandomBooks() {
-        fetch(`/api/books/random?count=5`) // Fetch 5 random books from the backend
+        fetch(`/api/books/random?count=4`) // Fetch 5 random books from the backend
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch random books");

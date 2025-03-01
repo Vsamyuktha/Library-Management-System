@@ -20,9 +20,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                <li class="nav-item"><a class="nav-link"  href="#!">Logout</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li> -->
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -102,7 +102,7 @@
 </div>
 <!-- Footer-->
 <footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2025</p></div>
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -111,58 +111,102 @@
 
 <!-- Search Books JavaScript -->
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        loadRandomBooks(); // Load 5 random books when the page loads
+    });
+
+    function loadRandomBooks() {
+        fetch(`/api/books/random?count=4`) // Fetch 5 random books from the backend
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch random books");
+                }
+                return response.json();
+            })
+            .then(books => {
+                if (!Array.isArray(books)) {
+                    throw new Error("Invalid data format received");
+                }
+                displayBooks(books);
+            })
+            .catch(error => {
+                console.error("Error fetching random books:", error);
+                document.getElementById("searchResults").innerHTML =
+                    "<p class='text-danger'>Error loading books. Please try again later.</p>";
+            });
+    }
+
     function searchBooks() {
         let field = document.getElementById("searchField").value;
         let value = document.getElementById("searchValue").value.trim();
+        let sortOrder = document.getElementById("sortOrder").value; // Get sort order (asc/desc)
 
-        if (!value) {
-            alert("Please enter a search term!");
+        // If no search term is entered, show random books instead
+        if (value === "") {
+            loadRandomBooks();
             return;
         }
 
         fetch(`/api/books/search?field=${field}&value=${encodeURIComponent(value)}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Network response was not ok");
+                    throw new Error("Failed to fetch search results");
                 }
                 return response.json();
             })
             .then(books => {
-                let resultDiv = document.getElementById("searchResults");
-                resultDiv.innerHTML = ""; // Clear previous results
-
-                if (books.length === 0) {
-                    resultDiv.innerHTML = "<p>No books found.</p>";
-                    return;
+                if (!Array.isArray(books)) {
+                    throw new Error("Invalid data format received");
                 }
 
-                let resultHTML = "";
-                books.forEach(book => {
-                    let reserveButtonClass = "btn-success";
-                    let reserveButtonText = "Reserve →";
-
-                    resultHTML += `
-                        <div class="col-lg-6">
-                            <div class="card mb-4">
-                                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="Book Cover" /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">Published: ${book.publicationYear}</div>
-                                    <h2 class="card-title h4">${book.title}</h2>
-                                    <p class="card-text"><strong>Author:</strong> ${book.author}</p>
-                                    <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
-                                    <p class="card-text"><strong>Available Copies:</strong> ${book.count}</p>
-                                    <a class="btn ${reserveButtonClass}" href="#!">${reserveButtonText}</a>
-                                </div>
-                            </div>
-                        </div>`;
+                // Sort books based on search field and sort order
+                books.sort((a, b) => {
+                    let fieldA = a[field]?.toString().toLowerCase() || "";
+                    let fieldB = b[field]?.toString().toLowerCase() || "";
+                    return sortOrder === "asc"
+                        ? fieldA.localeCompare(fieldB, undefined, {numeric: true})
+                        : fieldB.localeCompare(fieldA, undefined, {numeric: true});
                 });
 
-                resultDiv.innerHTML = resultHTML;
+                displayBooks(books);
             })
             .catch(error => {
                 console.error("Error fetching books:", error);
-                document.getElementById("searchResults").innerHTML = "<p>Error fetching books. Please try again.</p>";
+                document.getElementById("searchResults").innerHTML =
+                    "<p class='text-danger'>Error fetching books. Please try again later.</p>";
             });
+    }
+
+    function displayBooks(books) {
+        let resultDiv = document.getElementById("searchResults");
+        resultDiv.innerHTML = ""; // Clear previous results
+
+        if (!books.length) {
+            resultDiv.innerHTML = "<p class='text-warning'>No books found.</p>";
+            return;
+        }
+
+        let resultHTML = books.map(book => {
+            let reserveButtonClass = "btn-success";
+            let reserveButtonText = "Reserve →";
+
+            return `
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="Book Cover" /></a>
+                        <div class="card-body">
+                            <div class="small text-muted">Published: ${book.publicationYear || "Unknown"}</div>
+                            <h2 class="card-title h4">${book.title || "Untitled"}</h2>
+                            <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Author:</strong> ${book.author || "Unknown"}</p>
+                            <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Genre:</strong> ${book.genre || "Unknown"}</p>
+                            <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Available Copies:</strong> ${book.count || 0}</p>
+                            <a class="btn ${reserveButtonClass}" href="#!">${reserveButtonText}</a>
+                        </div>
+                    </div>
+                </div>`;
+        }).join("");
+
+        resultDiv.innerHTML = resultHTML;
     }
 </script>
 </body>
