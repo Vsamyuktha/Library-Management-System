@@ -1,6 +1,11 @@
 package com.ooad.lms.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -11,6 +16,9 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -19,27 +27,23 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    /*@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserDetails userDetails;
-
-    public UserDetails getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(UserDetails userDetails) {
-        this.userDetails = userDetails;
-    }*/
-
     // Constructors, Getters, and Setters
-
-
     public User() {
     }
 
-    public User(String email, String password, String role) {
+    public User(String username, String email, String password, String role) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getId() {

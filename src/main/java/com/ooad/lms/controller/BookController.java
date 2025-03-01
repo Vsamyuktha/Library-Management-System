@@ -2,11 +2,12 @@ package com.ooad.lms.controller;
 
 import com.ooad.lms.entity.Book;
 import com.ooad.lms.service.BookService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/books")
 public class BookController {
 
