@@ -1,1 +1,11 @@
-
+INSERT INTO books (book_id, title, author, genre, publication_year, count) VALUES
+(201, 'The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', 1925, 1),
+(202, 'To Kill a Mockingbird', 'Harper Lee', 'Fiction', 1960, 0),
+(203, '1984', 'George Orwell', 'Science Fiction', 1949, 1),
+(204, 'Pride and Prejudice', 'Jane Austen', 'Romance', 1813, 1),
+(205, 'The Catcher in the Rye', 'J.D. Salinger', 'Coming-of-age', 1951, 0),
+(206, 'The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 1937, 1),
+(207, 'The Da Vinci Code', 'Dan Brown', 'Thriller', 2003, 1),
+(208, 'The Hunger Games', 'Suzanne Collins', 'Young Adult', 2008, 0),
+(209, 'The Girl with the Dragon Tattoo', 'Stieg Larsson', 'Mystery', 2005, 1),
+(210, 'The Alchemist', 'Paulo Coelho', 'Philosophical Fiction', 1988, 1);
