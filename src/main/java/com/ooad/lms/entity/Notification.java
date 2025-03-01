@@ -12,8 +12,8 @@ public class Notification {
     @Column(name = "notification_id")
     private Long notificationId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
@@ -34,8 +34,8 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Long userId, LocalDateTime dateTime, String message, NotificationStatus status) {
-        this.userId = userId;
+    public Notification(String username, LocalDateTime dateTime, String message, NotificationStatus status) {
+        this.username = username;
         this.dateTime = dateTime;
         this.message = message;
         this.status = status;
@@ -50,12 +50,12 @@ public class Notification {
         this.notificationId = notificationId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public LocalDateTime getDateTime() {

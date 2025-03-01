@@ -12,8 +12,8 @@ public class Borrow {
     @Column(name = "borrow_id")
     private Long borrowId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
@@ -41,8 +41,8 @@ public class Borrow {
     public Borrow() {
     }
 
-    public Borrow(Long userId, Book book, LocalDateTime dateTimeBorrowed, LocalDateTime dateTimeDue, BorrowStatus status) {
-        this.userId = userId;
+    public Borrow(String username, Book book, LocalDateTime dateTimeBorrowed, LocalDateTime dateTimeDue, BorrowStatus status) {
+        this.username = username;
         this.book = book;
         this.dateTimeBorrowed = dateTimeBorrowed;
         this.dateTimeDue = dateTimeDue;
@@ -58,12 +58,12 @@ public class Borrow {
         this.borrowId = borrowId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserId() {
+        return username;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId(String username) {
+        this.username = username;
     }
 
     public Book getBook() {
