@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private String contactNumber;
 
     @Column(nullable = false)
     private String role;
@@ -46,6 +49,14 @@ public class User {
         this.username = username;
     }
 
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
     public Long getId() {
         return id;
     }
@@ -60,6 +71,11 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return (List.of(new SimpleGrantedAuthority(this.getRole())));
     }
 
     public String getPassword() {
