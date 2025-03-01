@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -20,7 +21,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) {
+    public User saveUser(User user) throws SQLException {
         return userRepository.save(user);
     }
 
