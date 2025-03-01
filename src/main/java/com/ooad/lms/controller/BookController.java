@@ -20,4 +20,9 @@ public class BookController {
     public List<Book> searchBooks(@RequestParam String field, @RequestParam String value) {
         return bookService.searchBooks(field, value);
     }
+
+    @GetMapping("/random")
+    public List<Book> getRandomBooks(@RequestParam(defaultValue = "4") int count) {
+        return bookService.getRandomBooks(count);
+    }
 }
