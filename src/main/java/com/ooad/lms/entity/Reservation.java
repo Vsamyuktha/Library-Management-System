@@ -83,7 +83,7 @@ public class Reservation {
         return dateTimeAvailable;
     }
 
-    public void setdateTimeAvailable(LocalDateTime dateTimeAvailable) {
+    public void setDateTimeAvailable(LocalDateTime dateTimeAvailable) {
         this.dateTimeAvailable = dateTimeAvailable;
     }
 

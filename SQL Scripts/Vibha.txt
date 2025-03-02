@@ -10,3 +10,14 @@ INSERT INTO books (book_id, title, author, genre, publication_year, count) VALUE
 (209, 'The Girl with the Dragon Tattoo', 'Stieg Larsson', 'Mystery', 2005, 1),
 (210, 'The Alchemist', 'Paulo Coelho', 'Philosophical Fiction', 1988, 1);
 
+INSERT INTO users (user_id, username, email, password, contact_number, role) VALUES
+(101, 'john_doe', 'john@example.com', 'password123', '1234567890', 'USER'),
+(102, 'jane_smith', 'jane@example.com', 'securepass', '9876543210', 'USER'),
+(103, 'admin_user', 'admin@library.com', 'adminpass123', '5555555555', 'ADMIN'),
+(104, 'alice_wonder', 'alice@example.com', 'alicepass', '1112223333', 'USER'),
+(105, 'bob_builder', 'bob@example.com', 'bobthebuilder', '4445556666', 'USER'),
+(106, 'charlie_brown', 'charlie@example.com', 'snoopydog', '7778889999', 'USER'),
+(107, 'diana_prince', 'diana@example.com', 'wonderwoman', '3334445555', 'USER'),
+(108, 'edward_cullen', 'edward@example.com', 'twilight', '6667778888', 'USER'),
+(109, 'fiona_shrek', 'fiona@example.com', 'ogreness', '9990001111', 'USER'),
+(110, 'george_jungle', 'george@example.com', 'watchoutfortree', '2223334444', 'USER');
