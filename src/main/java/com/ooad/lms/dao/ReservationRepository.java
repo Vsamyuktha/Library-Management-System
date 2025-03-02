@@ -16,4 +16,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findByUsername(String username);
 
+    List<Reservation> findByUsernameAndStatusIn(String username, List<Reservation.ReservationStatus> statuses);
+
 }

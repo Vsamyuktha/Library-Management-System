@@ -86,6 +86,6 @@ public class BookReservationService implements ReservationService {
 
     @Override
     public List<Reservation> getUserReservations(String username) {
-        return reservationRepository.findByUsername(username);
+        return reservationRepository.findByUsernameAndStatusIn(username, List.of(Reservation.ReservationStatus.PENDING, Reservation.ReservationStatus.COMPLETED));
     }
 }
