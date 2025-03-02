@@ -36,7 +36,7 @@
     <div class="container">
         <div class="text-center my-5 text-color">
             <h1 class="fw-bolder">Welcome to Santa Clara University Library</h1>
-            <p class="lead mb-0">Bookmark your journey!</p>
+            <p class="lead mb-0">Bookmark your journey <span class="lead mb-0" id="username" th:text="${username}"></span>!</p>
         </div>
     </div>
 </header>
@@ -57,7 +57,7 @@
             <div class="card mb-4">
                 <div class="card-header">Reserved Books</div>
                 <div class="card-body">
-                    <p> Add list of reserved books here</p>
+                    <div id="reservedBooksTable">Loading reserved books...</div>
                 </div>
             </div>
 
@@ -155,6 +155,59 @@
                 document.getElementById("searchResults").innerHTML = "<p>Error fetching books. Please try again.</p>";
             });
     }
+
+    function loadReservedBooks() {
+        const username = document.getElementById("username").innerText;
+        fetch(`/library/reservations/listAllReservations/${username}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(reservations => {
+                const reservedBooksTableElement = document.getElementById('reservedBooksTable');
+                if (reservations.length === 0) {
+                    reservedBooksTableElement.textContent = 'No books currently reserved.';
+                } else {
+                    let tableHTML = `
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Book Title</th>
+                                <th>Author</th>
+                                <th>Reservation Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                    reservations.forEach(reservation => {
+                        tableHTML += `
+                        <tr>
+                            <td>${reservation.book.title}</td>
+                            <td>${reservation.book.author}</td>
+                            <td>${new Date(reservation.dateTimeReserved).toLocaleString()}</td>
+                            <td>${reservation.status}</td>
+                        </tr>
+                    `;
+                    });
+                    tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+                    reservedBooksTableElement.innerHTML = tableHTML;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching reservations:', error);
+                document.getElementById('reservedBooksTable').textContent = 'Error loading reservations. Please try again.';
+            });
+    }
+
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', loadReservedBooks);
+
 </script>
 
 </body>
