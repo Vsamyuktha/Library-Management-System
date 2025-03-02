@@ -100,6 +100,7 @@
                     </div>
                 </div>
             </div>
+            <div id="reserved-books" th:attr="data-reservations=${reservedBookIdsJson}" style="display: none;"></div>
         </div>
     </div>
 </div>
@@ -192,10 +193,14 @@
             resultDiv.innerHTML = "<p class='text-warning'>No books found.</p>";
             return;
         }
+        const reservedBooksData = document.getElementById("reserved-books").dataset.reservations;
+        const reservedBookIds = new Set(JSON.parse(reservedBooksData));
 
         let resultHTML = books.map(book => {
-            let reserveButtonClass = "btn-success";
-            let reserveButtonText = "Reserve →";
+            let isReserved = reservedBookIds.has(book.bookId); // Check if book is reserved
+            let reserveButtonClass = isReserved ? "btn-secondary disabled" : "btn-success";
+            let reserveButtonText = isReserved ? "Reserved" : "Reserve →";
+            let reserveButtonDisabled = isReserved ? "disabled" : "";
 
             return `
                 <div class="col-lg-6" data-book-id="${book.bookId}">
@@ -207,7 +212,7 @@
                             <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Author:</strong> ${book.author || "Unknown"}</p>
                             <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Genre:</strong> ${book.genre || "Unknown"}</p>
                             <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Available Copies:</strong> ${book.count || 0}</p>
-                            <button class="btn ${reserveButtonClass}" onclick="reserveBook('${book.bookId}')">${reserveButtonText}</button>
+                            <button class="btn ${reserveButtonClass}" onclick="reserveBook('${book.bookId}')" ${reserveButtonDisabled}>${reserveButtonText}</button>
                         </div>
                     </div>
                 </div>`;
@@ -228,6 +233,7 @@
             .then(response => {
                 if (response.ok) {
                     alert('Book reserved successfully!');
+                    window.location.reload(true);
                     // You can also update the UI to reflect the reservation
                 } else {
                     alert('Failed to reserve book. Please try again.');

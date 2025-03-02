@@ -21,8 +21,6 @@ public class AuthenticationHandlerService implements AuthenticationSuccessHandle
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
         // Get the authenticated user
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        System.out.println(userDetails.getUsername() +": "+isAdmin);
-        authentication.getAuthorities().forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
 
         // Fetch user ID (modify according to your UserDetails implementation)
         String username = ((User) userDetails).getUsername();
