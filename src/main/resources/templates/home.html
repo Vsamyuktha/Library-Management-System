@@ -85,7 +85,7 @@
             <div class="card mb-4">
                 <div class="card-header">Amount Due</div>
                 <div class="card-body">
-                    <h2>0</h2>
+                    <h2 id="amountDue">$0.00</h2>
                 </div>
             </div>
 
@@ -121,6 +121,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         loadRandomBooks(); // Load 5 random books when the page loads
+        loadAmountDue();
     });
 
     function loadRandomBooks() {
@@ -245,6 +246,24 @@
             .catch(error => {
                 console.error('Error reserving book:', error);
                 alert('Error reserving book. Please try again.');
+            });
+    }
+
+    function loadAmountDue() {
+        let username = document.getElementById("username").innerText.trim();
+        fetch(`/library/reservations/amountDue/${username}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch amount due");
+                }
+                return response.json();
+            })
+            .then(amount => {
+                document.getElementById("amountDue").innerText = `$${amount.toFixed(2)}`;
+            })
+            .catch(error => {
+                console.error("Error fetching amount due:", error);
+                document.getElementById("amountDue").innerText = "$0.00";
             });
     }
 </script>
