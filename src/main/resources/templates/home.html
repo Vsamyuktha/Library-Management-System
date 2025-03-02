@@ -36,7 +36,7 @@
     <div class="container">
         <div class="text-center my-5 text-color">
             <h1 class="fw-bolder">Welcome to Santa Clara University Library</h1>
-            <p class="lead mb-0">Bookmark your journey!</p>
+            <p class="lead mb-0">Bookmark your journey <span class="lead mb-0" id="username" th:text="${username}"></span>!</p>
         </div>
     </div>
 </header>
@@ -198,7 +198,7 @@
             let reserveButtonText = "Reserve →";
 
             return `
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-book-id="${book.bookId}">
                     <div class="card mb-4">
                         <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="Book Cover" /></a>
                         <div class="card-body">
@@ -217,8 +217,8 @@
     }
 
     function reserveBook(bookId) {
-        const username = 'vibhan'; // Replace with the actual username
         const bookIdLong = Number(bookId);
+        const username = document.getElementById("username").innerText;
         fetch(`/library/reservations/reserveBook/${username}/${bookIdLong}`, {
             method: 'POST',
             headers: {
