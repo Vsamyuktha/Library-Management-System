@@ -3,6 +3,7 @@ package com.ooad.lms.controller;
 import com.ooad.lms.entity.User;
 import com.ooad.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,11 +36,13 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         try {
             userService.saveUser(user);
-        } catch (Exception e) {
+            model.addAttribute("message", "Sign up successful!");
+        } catch(DataIntegrityViolationException e) {
             model.addAttribute("message", "User already exists!");
+        } catch (Exception e) {
+            model.addAttribute("message", "Sign up failed. Try again!");
         }
 
-        model.addAttribute("message", "Sign up successful!");
         return "signup";
     }
 }
