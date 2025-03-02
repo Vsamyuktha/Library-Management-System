@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    Optional<Reservation> findByUsernameAfterAndBookAndStatus(String username, Book book, Reservation.ReservationStatus status);
+    Optional<Reservation> findByUsernameAndBookAndStatus(String username, Book book, Reservation.ReservationStatus status);
 
     Optional<Reservation> findFirstByBookAndStatusOrderByDateTimeReserved(Book book, Reservation.ReservationStatus status);
 

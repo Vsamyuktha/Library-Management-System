@@ -43,12 +43,21 @@
             <div class="card mb-4">
                 <div class="card-header">Return/Borrow Book</div>
                 <div class="card-body">
-                    <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Enter username..." aria-label="Enter username.." aria-describedby="button-search" />
-                        <input class="form-control" type="text" placeholder="Enter book id..." aria-label="Enter book id.." aria-describedby="button-search" />
-                        <button class="btn btn-primary rounded" id="button-search" type="button" style="margin-right: 5px; margin-left: 5px;">Borrow</button>
-                        <button class="btn btn-primary rounded" id="button-search" type="button">Return</button>
-                    </div>
+                    <form id="bookForm" th:action="@{/library/admin/borrowBook}" method="post">
+                        <div class="input-group form-group">
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+                            <input type="number" id="bookId" name="bookId" class="form-control" placeholder="Book ID" required>
+                            <button type="button" onclick="submitForm('borrow')" class="btn float-right login_btn">Borrow Book</button>
+                            <button type="button" onclick="submitForm('return')" class="btn float-right login_btn">Return Book</button>
+                        </div>
+                    </form>
+
+                        <div id="alertModal" class="modal" style="display:none;">
+                            <div class="modal-content">
+                                <p id="modalMessage"></p>
+                                <button onclick="closeModal()">OK</button>
+                            </div>
+                        </div>
                 </div>
             </div>
                 <!-- Search Section -->
@@ -209,5 +218,60 @@
         resultDiv.innerHTML = resultHTML;
     }
 </script>
+
+<script>
+    function submitForm(action) {
+        var form = document.getElementById('bookForm');
+        if (action === 'borrow') {
+            form.action = '/library/admin/borrowBook';
+        } else if (action === 'return') {
+            form.action = '/library/admin/returnBook';
+        }
+        form.submit();
+    }
+</script>
+
+<script th:inline="javascript">
+        function showModal(message) {
+        document.getElementById('modalMessage').innerText = message;
+        document.getElementById('alertModal').style.display = 'block';
+    }
+
+        function closeModal() {
+        document.getElementById('alertModal').style.display = 'none';
+    }
+
+        // Check for flash message on page load
+        document.addEventListener('DOMContentLoaded', function() {
+        var message = /*[[${message}]]*/ null;
+        if (message) {
+        showModal(message);
+    }
+    });
+
+</script>
+
+<style>
+    .modal {
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        text-align: center;
+    }
+</style>
+
+
 </body>
 </html>

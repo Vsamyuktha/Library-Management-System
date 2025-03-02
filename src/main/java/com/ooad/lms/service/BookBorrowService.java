@@ -46,8 +46,8 @@ public class BookBorrowService implements BorrowService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
 
-        Reservation reservation = reservationRepository.findByUsernameAfterAndBookAndStatus(username, book, Reservation.ReservationStatus.COMPLETED).orElse(null);
-
+        Reservation reservation = reservationRepository.findByUsernameAndBookAndStatus(username, book, Reservation.ReservationStatus.COMPLETED).orElse(null);
+        System.out.println(reservation);
         if (reservation != null) {
             reservation.setStatus(Reservation.ReservationStatus.BORROWED);
             reservationRepository.save(reservation);
@@ -94,6 +94,12 @@ public class BookBorrowService implements BorrowService {
         borrowRepository.save(borrow);
         return borrow;
     }
+
+    @Override
+    public List<Borrow> getUserBorrows(String username) {
+        return borrowRepository.findByUsername(username);
+    }
+
 
     private void createNotification(String username, String message) {
         Notification notification = new Notification();

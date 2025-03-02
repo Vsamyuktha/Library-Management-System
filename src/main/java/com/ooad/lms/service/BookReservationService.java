@@ -75,9 +75,6 @@ public class BookReservationService implements ReservationService {
 
     }
 
-
-
-
     private void createNotification(String username, String message) {
         Notification notification = new Notification();
         notification.setUsername(username);

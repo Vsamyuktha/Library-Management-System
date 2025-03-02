@@ -230,13 +230,16 @@
                 'Content-Type': 'application/json'
             },
         })
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(reservation => {
+                if (reservation.status === 'COMPLETED') {
                     alert('Book reserved successfully!');
                     window.location.reload(true);
                     // You can also update the UI to reflect the reservation
+                } else if (reservation.status === 'PENDING') {
+                    alert('Book is currently unavailable. You will be notified when it becomes available.');
                 } else {
-                    alert('Failed to reserve book. Please try again.');
+                    alert('Reservation status: ' + reservation.status);
                 }
             })
             .catch(error => {
