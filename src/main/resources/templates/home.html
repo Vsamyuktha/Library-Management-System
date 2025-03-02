@@ -36,7 +36,7 @@
     <div class="container">
         <div class="text-center my-5 text-color">
             <h1 class="fw-bolder">Welcome to Santa Clara University Library</h1>
-            <p class="lead mb-0">Bookmark your journey!</p>
+            <p class="lead mb-0">Bookmark your journey <span class="lead mb-0" id="username" th:text="${username}"></span>!</p>
         </div>
     </div>
 </header>
@@ -198,7 +198,7 @@
             let reserveButtonText = "Reserve →";
 
             return `
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-book-id="${book.bookId}">
                     <div class="card mb-4">
                         <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="Book Cover" /></a>
                         <div class="card-body">
@@ -207,13 +207,36 @@
                             <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Author:</strong> ${book.author || "Unknown"}</p>
                             <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Genre:</strong> ${book.genre || "Unknown"}</p>
                             <p class="card-text" style="margin-bottom: 5px; line-height: 1.2;"><strong>Available Copies:</strong> ${book.count || 0}</p>
-                            <a class="btn ${reserveButtonClass}" href="#!">${reserveButtonText}</a>
+                            <button class="btn ${reserveButtonClass}" onclick="reserveBook('${book.bookId}')">${reserveButtonText}</button>
                         </div>
                     </div>
                 </div>`;
         }).join("");
 
         resultDiv.innerHTML = resultHTML;
+    }
+
+    function reserveBook(bookId) {
+        const bookIdLong = Number(bookId);
+        const username = document.getElementById("username").innerText;
+        fetch(`/library/reservations/reserveBook/${username}/${bookIdLong}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Book reserved successfully!');
+                    // You can also update the UI to reflect the reservation
+                } else {
+                    alert('Failed to reserve book. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error reserving book:', error);
+                alert('Error reserving book. Please try again.');
+            });
     }
 </script>
 

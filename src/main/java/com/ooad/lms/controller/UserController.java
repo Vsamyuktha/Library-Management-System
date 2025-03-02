@@ -2,7 +2,7 @@ package com.ooad.lms.controller;
 
 import com.ooad.lms.entity.Borrow;
 import com.ooad.lms.entity.Notification;
-import com.ooad.lms.service.BorrowService;
+import com.ooad.lms.service.BookBorrowService;
 import com.ooad.lms.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class UserController {
     private NotificationService notificationService;
 
     @Autowired
-    private BorrowService borrowService;
+    private BookBorrowService borrowService;
 
     @GetMapping
     public String getHome(@RequestParam String username, Model model) {
