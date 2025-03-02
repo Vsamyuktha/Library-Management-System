@@ -1,5 +1,7 @@
 package com.ooad.lms.controller;
+import com.ooad.lms.entity.Borrow;
 import com.ooad.lms.entity.Reservation;
+import com.ooad.lms.service.BookBorrowService;
 import com.ooad.lms.service.BookReservationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,9 @@ public class ReservationController {
 
     @Autowired
     private BookReservationService reservationService;
+    @Autowired
+    private BookBorrowService borrowService;
+
 
     @PostMapping("/reserveBook/{username}/{bookId}")
     public ResponseEntity<Reservation> reserveBook(@PathVariable String username, @PathVariable Long bookId) {
@@ -25,6 +30,13 @@ public class ReservationController {
         List<Reservation> reservations = reservationService.getUserReservations(username);
         return ResponseEntity.ok(reservations);
     }
+
+    @GetMapping("/listAllBorrows/{username}")
+    public ResponseEntity<List<Borrow>> getUserBorrows(@PathVariable String username) {
+        List<Borrow> borrows = borrowService.getUserBorrows(username);
+        return ResponseEntity.ok(borrows);
+    }
+
 
     /*
     @PutMapping("/{id}/cancel")
