@@ -2,6 +2,7 @@ package com.ooad.lms.service;
 
 import com.ooad.lms.dao.UserRepository;
 import com.ooad.lms.entity.User;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,8 +22,8 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) throws SQLException {
-        return userRepository.save(user);
+    public void saveUser(User user) throws DataIntegrityViolationException, Exception {
+        userRepository.save(user);
     }
 
     public User findByUsername(String username) {
