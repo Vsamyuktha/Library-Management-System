@@ -13,6 +13,8 @@ import com.ooad.lms.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -108,5 +110,45 @@ public class BookBorrowService implements BorrowService {
         notification.setMessage(message);
         notification.setStatus(Notification.NotificationStatus.UNREAD);
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public BigDecimal calculateAmountDue(String username) {
+        final BigDecimal DAILY_FINE_RATE = new BigDecimal("2.00"); // Fine per day
+        List<Borrow> borrowedBooks = borrowRepository.findByUsername(username); // Get all borrowed books
+
+        BigDecimal totalFine = BigDecimal.ZERO;
+        LocalDateTime now = LocalDateTime.now();
+
+        for (Borrow borrow : borrowedBooks) {
+            LocalDateTime dueDate = borrow.getDateTimeDue();
+            LocalDateTime borrowDate = borrow.getDateTimeBorrowed();
+
+            // Calculate grace period days
+            int gracePeriodDays = calculateGracePeriod(borrowDate, dueDate);
+            dueDate = dueDate.plusDays(gracePeriodDays); // Add grace period
+
+            // If the adjusted due date is still in the past, apply fine
+            if (dueDate.isBefore(now)) {
+                long daysLate = ChronoUnit.DAYS.between(dueDate, now);
+                totalFine = totalFine.add(DAILY_FINE_RATE.multiply(BigDecimal.valueOf(daysLate)));
+            }
+        }
+        return totalFine;
+    }
+
+    // Calculate grace period
+    private int calculateGracePeriod(LocalDateTime borrowDate, LocalDateTime dueDate) {
+        int graceDays = 0;
+        LocalDateTime tempDate = borrowDate;
+
+        while (!tempDate.isAfter(dueDate)) {
+            if ((tempDate.getMonthValue() == 12 && tempDate.getDayOfMonth() == 25) || // Christmas
+                    (tempDate.getMonthValue() == 1 && tempDate.getDayOfMonth() == 1)) {  // New Year's Day
+                graceDays++; // Increment grace period for each holiday found
+            }
+            tempDate = tempDate.plusDays(1);
+        }
+        return graceDays;
     }
 }
