@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", function () {
+    loadAmountDue();
+    loadBorrowedBooks();
+});
+
 function searchBooks() {
     let field = document.getElementById("searchField").value;
     let value = document.getElementById("searchValue").value.trim();
@@ -182,7 +187,7 @@ function markAllAsRead() {
             if (response.ok) {
                 console.log("Marked all notifications as read!")
                 const notificationsTableBody = document.getElementById("notifications-body")
-                if(notificationsTableBody) {
+                if (notificationsTableBody) {
                     notificationsTableBody.innerHTML = "";  // Clear all notifications
                 }
             } else {
@@ -192,5 +197,20 @@ function markAllAsRead() {
         .catch(error => console.error('Error:', error));
 }
 
-// Call the function when the page loads
-document.addEventListener('DOMContentLoaded', loadBorrowedBooks);
+function loadAmountDue() {
+    let username = document.getElementById("username").innerText.trim();
+    fetch(`/library/reservations/amountDue/${username}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch amount due");
+            }
+            return response.json();
+        })
+        .then(amount => {
+            document.getElementById("amountDue").innerText = `$${amount.toFixed(2)}`;
+        })
+        .catch(error => {
+            console.error("Error fetching amount due:", error);
+            document.getElementById("amountDue").innerText = "$0.00";
+        });
+}
