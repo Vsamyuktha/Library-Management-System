@@ -25,15 +25,20 @@ public class Book {
     @Column(nullable = false)
     private int count;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     // Constructors
     public Book() {
     }
 
-    public Book(String title, String author, String genre, int publicationYear, int count) {
+    public Book(String title, String author, String genre, int publicationYear, int count, String imageUrl) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.publicationYear = publicationYear;
+        this.count = count;
+        this.imageUrl = imageUrl;
     }
 
     // Getters and Setters
@@ -83,5 +88,13 @@ public class Book {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

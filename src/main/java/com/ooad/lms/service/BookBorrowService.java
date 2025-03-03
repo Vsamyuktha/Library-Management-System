@@ -122,17 +122,19 @@ public class BookBorrowService implements BorrowService {
         LocalDateTime now = LocalDateTime.now();
 
         for (Borrow borrow : borrowedBooks) {
-            LocalDateTime dueDate = borrow.getDateTimeDue();
-            LocalDateTime borrowDate = borrow.getDateTimeBorrowed();
+            if (borrow.getStatus() == Borrow.BorrowStatus.PENDING_RETURN) {
+                LocalDateTime dueDate = borrow.getDateTimeDue();
+                LocalDateTime borrowDate = borrow.getDateTimeBorrowed();
 
-            // Calculate grace period days
-            int gracePeriodDays = calculateGracePeriod(borrowDate, dueDate);
-            dueDate = dueDate.plusDays(gracePeriodDays); // Add grace period
+                // Calculate grace period days
+                int gracePeriodDays = calculateGracePeriod(borrowDate, dueDate);
+                dueDate = dueDate.plusDays(gracePeriodDays); // Add grace period
 
-            // If the adjusted due date is still in the past, apply fine
-            if (dueDate.isBefore(now)) {
-                long daysLate = ChronoUnit.DAYS.between(dueDate, now);
-                totalFine = totalFine.add(DAILY_FINE_RATE.multiply(BigDecimal.valueOf(daysLate)));
+                // If the adjusted due date is still in the past, apply fine
+                if (dueDate.isBefore(now)) {
+                    long daysLate = ChronoUnit.DAYS.between(dueDate, now);
+                    totalFine = totalFine.add(DAILY_FINE_RATE.multiply(BigDecimal.valueOf(daysLate)));
+                }
             }
         }
         return totalFine;
