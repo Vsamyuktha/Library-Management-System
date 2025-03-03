@@ -1,6 +1,7 @@
 <!-- Search Books JavaScript -->
 document.addEventListener("DOMContentLoaded", function () {
     loadRandomBooks(); // Load 5 random books when the page loads
+    loadAmountDue();
 });
 
 function loadRandomBooks() {
@@ -161,4 +162,22 @@ function markAllAsRead() {
         }
     })
     .catch(error => console.error('Error:', error));
+}
+
+function loadAmountDue() {
+    let username = document.getElementById("username").innerText.trim();
+    fetch(`/library/reservations/amountDue/${username}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch amount due");
+            }
+            return response.json();
+        })
+        .then(amount => {
+            document.getElementById("amountDue").innerText = `$${amount.toFixed(2)}`;
+        })
+        .catch(error => {
+            console.error("Error fetching amount due:", error);
+            document.getElementById("amountDue").innerText = "$0.00";
+        });
 }

@@ -140,7 +140,7 @@ public class BookBorrowService implements BorrowService {
 
     // Calculate grace period
     private int calculateGracePeriod(LocalDateTime borrowDate, LocalDateTime dueDate) {
-        int graceDays = 0;
+        int graceDays = 2;
         LocalDateTime tempDate = borrowDate;
 
         while (!tempDate.isAfter(dueDate)) {
