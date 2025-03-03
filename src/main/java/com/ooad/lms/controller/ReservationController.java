@@ -7,6 +7,8 @@ import com.ooad.lms.service.BookReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 @RestController
 @RequestMapping("/library/reservations")
@@ -35,6 +37,11 @@ public class ReservationController {
     public ResponseEntity<List<Borrow>> getUserBorrows(@PathVariable String username) {
         List<Borrow> borrows = borrowService.getUserBorrows(username);
         return ResponseEntity.ok(borrows);
+    }
+
+    @GetMapping("/amountDue/{username}")
+    public BigDecimal getAmountDue(@PathVariable String username) {
+        return borrowService.calculateAmountDue(username);
     }
 
 
