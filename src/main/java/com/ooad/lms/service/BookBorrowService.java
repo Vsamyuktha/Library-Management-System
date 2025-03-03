@@ -47,7 +47,7 @@ public class BookBorrowService implements BorrowService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
 
         Reservation reservation = reservationRepository.findByUsernameAndBookAndStatus(username, book, Reservation.ReservationStatus.COMPLETED).orElse(null);
-        System.out.println(reservation);
+        //System.out.println(reservation);
         if (reservation != null) {
             reservation.setStatus(Reservation.ReservationStatus.BORROWED);
             reservationRepository.save(reservation);
@@ -75,6 +75,12 @@ public class BookBorrowService implements BorrowService {
 
         Optional<Reservation> pendingReservation = reservationRepository.findFirstByBookAndStatusOrderByDateTimeReserved(book, Reservation.ReservationStatus.PENDING);
 
+        Borrow borrow = borrowRepository.findFirstByBookAndStatusOrderByDateTimeBorrowedDesc(book, Borrow.BorrowStatus.PENDING_RETURN)
+                .orElseThrow(() -> new ResourceNotFoundException("No pending return found for this book"));
+        borrow.setStatus(Borrow.BorrowStatus.RETURNED);
+        borrow.setDateTimeReturned(LocalDateTime.now());
+        borrowRepository.save(borrow);
+
         if (pendingReservation.isPresent()) {
             Reservation reservation = pendingReservation.get();
             reservation.setStatus(Reservation.ReservationStatus.COMPLETED);
@@ -87,11 +93,6 @@ public class BookBorrowService implements BorrowService {
             bookRepository.save(book);
         }
 
-        Borrow borrow = borrowRepository.findFirstByBookAndStatusOrderByDateTimeBorrowedDesc(book, Borrow.BorrowStatus.PENDING_RETURN)
-                .orElseThrow(() -> new ResourceNotFoundException("No pending return found for this book"));
-        borrow.setStatus(Borrow.BorrowStatus.RETURNED);
-        borrow.setDateTimeReturned(LocalDateTime.now());
-        borrowRepository.save(borrow);
         return borrow;
     }
 

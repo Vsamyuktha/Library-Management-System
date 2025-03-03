@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -48,7 +47,7 @@ public class UserController {
                 .collect(Collectors.toList());
         model.addAttribute("reservedBookIds", reservedBookIds);
 
-        // Convert to JSON string using Jackson ObjectMapper
+        // Converting to JSON string using Jackson ObjectMapper
         String reservedBookIdsJson = objectMapper.writeValueAsString(reservedBookIds);
         model.addAttribute("reservedBookIdsJson", reservedBookIdsJson);
 
