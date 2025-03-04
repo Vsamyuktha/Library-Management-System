@@ -1,23 +1,13 @@
 package com.ooad.lms.service;
-
 import com.ooad.lms.entity.Book;
 import com.ooad.lms.entity.Notification;
 import com.ooad.lms.entity.Reservation;
-
 import com.ooad.lms.dao.BookRepository;
 import com.ooad.lms.dao.ReservationRepository;
 import com.ooad.lms.dao.NotificationRepository;
-
-
 import com.ooad.lms.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -88,4 +78,15 @@ public class BookReservationService implements ReservationService {
     public List<Reservation> getUserReservations(String username) {
         return reservationRepository.findByUsernameAndStatusIn(username, List.of(Reservation.ReservationStatus.PENDING, Reservation.ReservationStatus.COMPLETED));
     }
+
+    @Override
+    public long countCompletedReservations() {
+        return reservationRepository.countByStatus(Reservation.ReservationStatus.COMPLETED);
+    }
+
+    @Override
+    public long countPendingReservations() {
+        return reservationRepository.countByStatus(Reservation.ReservationStatus.PENDING);
+    }
+
 }

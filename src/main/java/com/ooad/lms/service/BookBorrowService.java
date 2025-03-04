@@ -154,4 +154,10 @@ public class BookBorrowService implements BorrowService {
         }
         return graceDays;
     }
+
+    @Override
+    public long countPendingReturnBooks() {
+        return borrowRepository.countByStatus(Borrow.BorrowStatus.PENDING_RETURN);
+    }
+
 }
