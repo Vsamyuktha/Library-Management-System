@@ -9,5 +9,7 @@ public interface ReservationService {
     void returnBook(Long bookId);
     void borrowBook(String unsername, Long bookId);
     List<Reservation> getUserReservations(String username);
+    long countCompletedReservations();
+    long countPendingReservations();
 
 }

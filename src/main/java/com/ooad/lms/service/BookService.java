@@ -48,4 +48,9 @@ public class BookService {
         Collections.shuffle(books); // Shuffle the list randomly
         return books.stream().limit(count).collect(Collectors.toList()); // Return only 'count' books
     }
+
+    public long countAvailableBooks() {
+        return bookRepository.countBooks();
+    }
+
 }

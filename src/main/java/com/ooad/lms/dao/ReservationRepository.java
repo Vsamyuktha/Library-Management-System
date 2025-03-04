@@ -18,4 +18,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findByUsernameAndStatusIn(String username, List<Reservation.ReservationStatus> statuses);
 
+    long countByStatus(Reservation.ReservationStatus status);
+
 }

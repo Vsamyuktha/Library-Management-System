@@ -117,30 +117,24 @@
 
         </div>
         <!-- Side widgets-->
+        <!-- Side widgets-->
         <div class="col-lg-4">
-            <!-- Search widget-->
+            <!-- Statistics widget-->
             <div class="card mb-4">
-                <div class="card-header">Update Payment</div>
+                <div class="card-header">Library Dashboard</div>
                 <div class="card-body">
-                    <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Enter username..." aria-label="Enter username.." aria-describedby="button-search" />
-                        <button class="btn other-btn" id="payment-search" type="button">Go!</button>
-                    </div>
-                    <div class="row" id="paymentSearchResults"></div>
-                </div>
-            </div>
-            <!-- Categories widget-->
-            <div class="card mb-4">
-                <div class="card-header">Notifications</div>
-                <div class="card-body">
-                    <div class="row">
-                        <ol th:each="notification : ${notifications}" class="list-unstyled mb-0">
-                            <li th:text="${notification.message}"></li>
-                        </ol>
-                    </div>
+                    <ul class="list-unstyled mb-0">
+                        <li>Active Users: <span th:text="${activeUsers}"></span></li>
+                        <li>Available Books: <span th:text="${availableBooks}"></span></li>
+                        <li>Reserved Books: <span th:text="${reservedBooks}"></span></li>
+                        <li>Pending Reservations: <span th:text="${pendingReservations}"></span></li>
+                        <li>Borrowed Books: <span th:text="${borrowedBooks}"></span></li>
+
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 <!-- Footer-->

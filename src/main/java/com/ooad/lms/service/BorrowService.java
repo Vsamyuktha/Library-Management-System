@@ -10,5 +10,7 @@ public interface BorrowService {
     Borrow returnBook(Long bookId);
     List<Borrow> getUserBorrows(String username);
     BigDecimal calculateAmountDue(String username);
+    long countPendingReturnBooks();
+
 }
 
