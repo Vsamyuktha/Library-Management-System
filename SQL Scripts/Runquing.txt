@@ -9,3 +9,23 @@ INSERT INTO books (book_id, title, author, genre, publication_year, count) VALUE
 (208, 'The Hunger Games', 'Suzanne Collins', 'Young Adult', 2008, 0),
 (209, 'The Girl with the Dragon Tattoo', 'Stieg Larsson', 'Mystery', 2005, 1),
 (210, 'The Alchemist', 'Paulo Coelho', 'Philosophical Fiction', 1988, 1);
+
+
+
+
+INSERT INTO books (book_id, title, author, genre, publication_year, count, image_url) VALUES
+(201, 'The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', 1925, 1, 'https://m.media-amazon.com/images/I/81af+MCATTL.jpg'),
+(202, 'To Kill a Mockingbird', 'Harper Lee', 'Fiction', 1960, 0, 'https://m.media-amazon.com/images/I/51IXWZzlgSL._SY445_SX342_.jpg'),
+(203, '1984', 'George Orwell', 'Science Fiction', 1949, 1, 'https://m.media-amazon.com/images/I/715WdnBHqYL._SL1500_.jpg'),
+(204, 'Pride and Prejudice', 'Jane Austen', 'Romance', 1813, 1, 'https://m.media-amazon.com/images/I/41K1F3Thx4L._SY445_SX342_.jpg'),
+(205, 'The Catcher in the Rye', 'J.D. Salinger', 'Coming-of-age', 1951, 0, 'https://m.media-amazon.com/images/I/51EGcvHYfnL._SY445_SX342_.jpg'),
+(206, 'The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 1937, 1, 'https://m.media-amazon.com/images/I/61Ng-W9EhBL._AC_UY436_FMwebp_QL65_.jpg'),
+(207, 'The Da Vinci Code', 'Dan Brown', 'Thriller', 2003, 1, 'https://m.media-amazon.com/images/I/71Zp31dFeUL._AC_UY436_FMwebp_QL65_.jpg'),
+(208, 'The Hunger Games', 'Suzanne Collins', 'Young Adult', 2008, 0, 'https://m.media-amazon.com/images/I/81qPd0bhz0L._AC_UY436_FMwebp_QL65_.jpg'),
+(209, 'The Girl with the Dragon Tattoo', 'Stieg Larsson', 'Mystery', 2005, 1, 'https://m.media-amazon.com/images/I/81ErH6RdLpL._AC_UY436_FMwebp_QL65_.jpg'),
+(210, 'The Alchemist', 'Paulo Coelho', 'Philosophical Fiction', 1988, 1, 'https://m.media-amazon.com/images/I/81ioPZFMeUL._AC_UY436_FMwebp_QL65_.jpg'),
+(211, 'Brave New World', 'Aldous Huxley', 'Science Fiction', 1932, 1, 'https://m.media-amazon.com/images/I/517m1OfN9XL._AC_UY436_FMwebp_QL65_.jpg'),
+(212, 'The Lord of the Rings', 'J.R.R. Tolkien', 'Fantasy', 1954, 2, 'https://m.media-amazon.com/images/I/81XH+m22mjL._AC_UY436_FMwebp_QL65_.jpg'),
+(213, 'Jane Eyre', 'Charlotte Brontë', 'Gothic Fiction', 1847, 1, 'https://m.media-amazon.com/images/I/81NV-WXTgnL._AC_UY436_FMwebp_QL65_.jpg'),
+(214, 'The Picture of Dorian Gray', 'Oscar Wilde', 'Philosophical Fiction', 1890, 1, 'https://m.media-amazon.com/images/I/71sarViOwbL._AC_UY436_FMwebp_QL65_.jpg'),
+(215, 'Little Women', 'Louisa May Alcott', 'Classic', 1868, 1, 'https://m.media-amazon.com/images/I/71cULrL877L._AC_UY436_FMwebp_QL65_.jpg');
