@@ -2,6 +2,7 @@ package com.ooad.lms.service;
 
 import com.ooad.lms.entity.Book;
 import com.ooad.lms.dao.BookRepository;
+import com.ooad.lms.exceptions.DuplicateBookException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -52,5 +53,16 @@ public class BookService {
     public long countAvailableBooks() {
         return bookRepository.countBooks();
     }
+
+    public void addBook(Book book) throws DuplicateBookException {
+        if (bookRepository.existsByTitleAndEditionAndPublicationYear(
+                book.getTitle(),
+                book.getPublicationYear())) {
+
+            throw new DuplicateBookException("A book with this title, and publication year already exists");
+        }
+        bookRepository.save(book);
+    }
+
 
 }

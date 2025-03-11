@@ -1,14 +1,15 @@
 package com.ooad.lms.controller;
+import com.ooad.lms.exceptions.DuplicateBookException;
 import com.ooad.lms.service.BookBorrowService;
 import com.ooad.lms.service.BookReservationService;
 import com.ooad.lms.service.BookService;
 import com.ooad.lms.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.ooad.lms.entity.Book;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/library/admin")
@@ -37,5 +38,21 @@ public class AdminController {
         return "admin-home";
     }
 
+    @GetMapping("/addbooks")
+    public String showAddBookForm(Model model) {
+        model.addAttribute("book", new Book());
+        return "add-books";
+    }
+
+    @PostMapping("/addbooks")
+    public String addBook(@ModelAttribute("book") Book book, RedirectAttributes redirectAttributes) {
+        try {
+            bookService.addBook(book); // Call the service method to add the book
+            redirectAttributes.addFlashAttribute("successMessage", "Book added successfully!");
+        } catch (DuplicateBookException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/library/admin/addbooks"; // Redirect back to the add-books page
+    }
 
 }
