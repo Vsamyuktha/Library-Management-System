@@ -77,7 +77,7 @@ function displayBooks(books) {
         return `
                 <div class="col-lg-6" data-book-id="${book.bookId}">
                     <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="Book Cover" /></a>
+                        <a href="#!"><img class="card-img-top" src="${book.imageUrl || "https://dummyimage.com/700x350/dee2e6/6c757d.jpg"}" alt="Book Cover" /></a>
                         <div class="card-body">
                             <div class="small text-muted">Published: ${book.publicationYear || "Unknown"}</div>
                             <h2 class="card-title h4">${book.title || "Untitled"}</h2>
